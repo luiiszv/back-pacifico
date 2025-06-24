@@ -1,0 +1,104 @@
+import { UserInterface } from "../types/user.types";
+import { hash, compare } from "bcrypt";
+import {
+  getAll,
+  createUser,
+  findUserByEmail,
+  delteOneUser,
+} from "../repositories/userRepository";
+
+import { createAccessToken } from "../libs/jwt";
+
+/**
+ * Registar usuario
+ * @params user
+ * @returns
+ */
+
+const insertUser = async (user: UserInterface) => {
+  const passwordHashed = await hash(user.password, 10);
+  const userPassHashed = { ...user, password: passwordHashed };
+  const response = await createUser(userPassHashed);
+  return {
+    success: true,
+    message: "User registred",
+    data: response,
+  };
+};
+
+/**
+ * Consultar un usuario
+ * @params email
+ * @returns
+ */
+const getUser = async (email: string) => {
+  const response = await findUserByEmail(email);
+  return {
+    success: true,
+    message: "User Found",
+    data: response,
+  };
+};
+
+/**
+ * Consultar todos los usuarios
+ * @params -
+ * @returns Users
+ */
+const findUsers = async () => {
+  const response = await getAll();
+  return {
+    success: true,
+    data: response,
+  };
+};
+
+/**
+ * Elimiar usuarios
+ * @params id_user
+ * @returns
+ */
+const deleteUser = async (_id: string) => {
+  const response = await delteOneUser(_id);
+  return {
+    seccess: true,
+    message: "User Deleted",
+    data: response,
+  };
+};
+
+/**
+ * Login user
+ * @params email, password
+ * @returns token
+ */
+
+const loginUser = async (email: string, password: string) => {
+  const userExist = await findUserByEmail(email);
+  if (!userExist) {
+    return {
+      success: false,
+      message: "User not found",
+    };
+  }
+
+  const match = await compare(password, userExist.password);
+  if (!match) {
+    return {
+      success: false,
+      message: "Incorrect Password",
+    };
+  }
+  const payload = {
+    userId: userExist.id_user,
+    email: userExist.email,
+    roleId: userExist.rol_id,
+  };
+
+  const token = await createAccessToken(payload);
+  return {
+    success: true,
+    token: token,
+  };
+};
+export { insertUser, getUser, findUsers, deleteUser, loginUser };

@@ -23,10 +23,6 @@ const DepartamentoSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  descripcion: {
-    type: String,
-    required: false,
   }
 });
 

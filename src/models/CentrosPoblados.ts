@@ -11,13 +11,19 @@ const CentrosPobladosSchema = new Schema({
         unique: true,
     },
 
+    codigo_centro_poblado: {
+        type: String,
+        required: true,
+        unique: true
+    },
+
     municipios_id: {
         type: Schema.Types.ObjectId,
         ref: "Municipios",
         required: true,
         unique: true,
     },
-    nombre: {   
+    nombre: {
         type: String,
         required: true,
         unique: true,

@@ -16,15 +16,16 @@ const MunicipiosSchema = new Schema({
         required: true,
         unique: true
     },
-    departamento_id: {
-        type: Schema.Types.ObjectId,
-        ref: "Departamentos",
-    },
     codigo_municipio: {
         type: String,
         required: true,
         unique: true
     },
+    departamento_id: {
+        type: Schema.Types.ObjectId,
+        ref: "Departamentos",
+    },
+
     nombre: {
         type: String,
         required: true

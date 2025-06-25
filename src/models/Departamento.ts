@@ -24,7 +24,7 @@ const DepartamentoSchema = new Schema<DepartamentoInterface>({
     required: true,
     unique: true,
   }
-});
+}, { timestamps: true });
 
 
 // ⚙️ Plugin para autoincrementar id_departamento

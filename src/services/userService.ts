@@ -6,12 +6,22 @@ import {
   createUser,
   findUserByEmail,
   delteOneUser,
+  findUserById
 } from "../repositories/userRepository";
 
 import { createAccessToken } from "../libs/jwt";
 
 //RolRepository
 import { RolRepository } from "../repositories/rolRepository";
+
+
+
+import { validateToken } from "../middleware/auth";
+
+import { buildError, buildSuccess } from "../utils/baseResponse";
+import { id } from "zod/v4/locales";
+import { Types } from "mongoose";
+import { IUserResponse } from "../types/user/user.response";
 
 
 const rolRepository = new RolRepository();
@@ -109,9 +119,11 @@ const loginUser = async (email: string, password: string) => {
     };
   }
   const payload = {
-    userId: userExist.id_user,
+    _id: userExist._id,
+    id_user: userExist.id_user, //Room
+    rol_id: userExist.rol_id,
+    modulo_id: userExist.modulo_id,
     email: userExist.email,
-    roleId: userExist.rol_id,
   };
 
   const token = await createAccessToken(payload);
@@ -120,7 +132,19 @@ const loginUser = async (email: string, password: string) => {
   return {
     user: userExist,
     token,
- 
+
   };
 };
-export { insertUser, getUser, findUsers, deleteUser, loginUser };
+
+
+const getUserById = async (idUser: Types.ObjectId) => {
+
+  const user = await findUserById(idUser)
+
+  if (!user) {
+    return buildError("User not found", 404);
+  }
+
+  return buildSuccess(user, "Usuario encontrado");
+};
+export { insertUser, getUser, findUsers, deleteUser, loginUser, getUserById };

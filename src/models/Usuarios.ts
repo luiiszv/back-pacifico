@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
+const AutoIncrementFactory = require("mongoose-sequence")(mongoose);
 import { IUserRequest } from "../types/user/user.request";
 import "../models/Regionales";
 import "../models/CentrosFormacion";
@@ -83,7 +83,7 @@ const userSchema = new Schema<IUserRequest>({
     type: Boolean,
     default: true
   }
-});
+}, { timestamps: true });
 
 // ⚙️ Plugin para autoincrementar id_user
 userSchema.plugin(AutoIncrement, { inc_field: "id_user" });

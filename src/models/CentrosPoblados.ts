@@ -13,8 +13,8 @@ const CentrosPobladosSchema = new Schema<CentroPobladoInterface>({
 
     id_centro_poblado: { // ID autoincremental del centro poblado
         type: Number,
-    
-     
+
+
     },
 
     municipio_id: {
@@ -35,14 +35,14 @@ const CentrosPobladosSchema = new Schema<CentroPobladoInterface>({
     nombre: {
         type: String,
         required: true,
-        
+
     },
     tipo: {
         type: String,
         required: true
     }
 
-});
+}, { timestamps: true });
 
 // ⚙️ Plugin para autoincrementar id_centro_poblado
 CentrosPobladosSchema.plugin(AutoIncrement, { inc_field: "id_centro_poblado" });

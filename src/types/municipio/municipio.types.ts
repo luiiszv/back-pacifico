@@ -18,4 +18,6 @@ export interface MunicipioInterface {
     departamento_id: Types.ObjectId; // Referencia al departamento
     id_departamento: number; // ID del departamento para Room
     nombre: string; // Nombre del municipio
+    createdAt?: Date;
+    updatedAt?: Date;
 }

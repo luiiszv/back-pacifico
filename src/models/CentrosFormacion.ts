@@ -32,7 +32,7 @@ const CentroFormacionShema = new Schema<ICentroFormacionInterface>({
         type: String,
         required: false,
     },
-});
+}, { timestamps: true });
 
 // ⚙️ Plugin para autoincrementar id_centro_formacion
 CentroFormacionShema.plugin(AutoIncrement, { inc_field: "id_centro_formacion" });

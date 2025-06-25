@@ -9,6 +9,8 @@ export interface DepartamentoInterface {
     codigo_departamento: string; // Código del departamento según el DANE
     id_departamento: number;
     nombre: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 
 }
 

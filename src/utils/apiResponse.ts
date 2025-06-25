@@ -1,6 +1,8 @@
 import { Response } from "express";
 import { ApiResponse } from "../types/api-response.interface";
 
+
+//Para controladores que devuelven una respuesta estandarizada
 export const successResponse = <T>(
   res: Response,
   data: T,

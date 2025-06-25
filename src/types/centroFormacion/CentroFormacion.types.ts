@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { RegionalInterface } from "../types/regional.types";
+import { RegionalInterface } from "../regional/regional.types";
 
 
 
@@ -10,4 +10,6 @@ export interface ICentroFormacionInterface {
   id_regional: number;
   nombre: string;
   direccion?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

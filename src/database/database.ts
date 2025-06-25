@@ -1,11 +1,11 @@
-import { connect , connection } from "mongoose";
-import { config } from "dotenv";
+import { connect, connection } from "mongoose";
 
-config();
+
+import { MONGODB_URI } from "../config/credentials";
 
 export const connectDb = async (): Promise<void> => {
   try {
-    const mongoUri = process.env.MONGODB_URI;
+    const mongoUri = MONGODB_URI;
     if (!mongoUri) {
       throw new Error("La URI de MongoDB no está definida en el archivo .env");
     }

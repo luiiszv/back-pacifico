@@ -9,7 +9,7 @@ import { Request } from "express";
 declare global {
   namespace Express {
     export interface Request {
-      user: object;
+      user: jwtData;
     }
   }
 }
@@ -17,11 +17,10 @@ declare global {
 
 
 export interface jwtData extends JwtPayload {
-  id_user: string;
+  _id: Types.ObjectId;
+  id_user: number;
   email: string;
   rol_id: Types.ObjectId;
-
-
-
+  modulo_id: Types.ObjectId;
 }
 

@@ -4,7 +4,10 @@ import {
   insertUser,
   findUsers,
   loginUser,
+  getUserById
 } from "../services/userService";
+import { buildSuccess } from "../utils/baseResponse";
+import { successResponse, errorResponse } from "../utils/apiResponse";
 
 export const registerUsers = async ({ body }: Request, res: Response) => {
   try {
@@ -41,20 +44,35 @@ export const getAllUsers = async (_req: Request, res: Response) => {
   }
 };
 
-export const login = async ({ body }: Request, res: Response) => {
+export const login = async ({ body }: Request, res: Response): Promise<any> => {
   try {
     const { success, token, user } = await loginUser(
       body.email,
       body.password
     );
-
-    res.cookie("accessToken", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-    });
-
+    // res.cookie("accessToken", token, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "strict",
+    // });
     res.status(200).json({ success, user, token });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Something went wrong in login", error });
+  }
+};
+
+
+export const verify = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const response = await getUserById(req.user?._id)
+
+    if (!response.success) {
+      return errorResponse(res, response.message);
+    }
+
+    return successResponse(res, response.data);
+
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Something went wrong in login", error });

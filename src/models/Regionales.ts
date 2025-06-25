@@ -34,7 +34,7 @@ const regionalSchema = new Schema<RegionalInterface>({
         type: String,
         required: false, // Opcional
     }
-});
+}, { timestamps: true });
 
 // ⚙️ Plugin para autoincrementar id_regional
 regionalSchema.plugin(AutoIncrement, { inc_field: "id_regional" });

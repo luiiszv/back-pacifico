@@ -4,25 +4,27 @@ import { Request, Response } from "express";
 
 import { successResponse, errorResponse } from "../utils/apiResponse";
 
+
 const departamentosService = new DepartamentosService();
+
 export class DepartamentosController {
 
 
 
-    constructor() { }
-
-
-
-    getAllDepartamentos = async (req: Request, res: Response) => {
+    getAllDepartamentos = async (req: Request, res: Response): Promise<any> => {
         try {
             const response = await departamentosService.getAllDepartamentos();
-            if (response.success) {
-                return successResponse(res, response.data);
+
+            if (!response.success) {
+                return errorResponse(res, response.message); 
             }
 
-            return errorResponse(res, response.error);
+            return successResponse(res, response.data);
         } catch (error) {
-            return errorResponse(res, "Internal Server Error");
+            console.log(error);
+            return errorResponse(res, "Internal Server Error", 500, error);
         }
     };
+
+
 }

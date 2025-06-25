@@ -1,15 +1,13 @@
+import mongoose, { Schema, model } from "mongoose";
 
 
-
-
-import { Schema, model } from "mongoose";
-
-
+const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
+// ✅ Crea instancia del plugin
+const AutoIncrement = AutoIncrementFactory;
 
 const viviendasSchema = new Schema({
     id_vivienda: {
         type: Number,
-        required: true,
         unique: true, // Unique
     },
 
@@ -17,8 +15,14 @@ const viviendasSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Zonas",
         required: true,
-        unique: true,
     },
+
+    id_zona: {
+        type: Number, //Room
+        required: true,
+
+    },
+
 
     latitud: {
         type: String,
@@ -59,9 +63,46 @@ const viviendasSchema = new Schema({
         required: true,
 
     },
+
+    tipo: {
+        type: String,
+        enum: [
+            "Casa",
+            "Apartamento",
+            "Cuarto en inquilinato",
+            "Vivienda indígena",
+            "Rancho o choza",
+            "Improvisada",
+            "Refugio",
+            "Otra"
+        ],
+
+        default: "Otra",
+        required: true
+    },
+
+
+    tenencia: {
+        type: String,
+        enum: [
+            "Propia",
+            "Propia con pago",
+            "Alquilada",
+            "Prestada",
+            "Ocupada sin permiso",
+            "Otra"
+        ],
+        default: "Otra",
+        required: false
+    },
+
     descripcion: {
         type: String,
     },
-});
+}, { timestamps: true }
+);
+
+// ⚙️ Plugin para autoincrementar id_user
+viviendasSchema.plugin(AutoIncrement, { inc_field: "id_vivienda" });
 
 export default model("Viviendas", viviendasSchema);

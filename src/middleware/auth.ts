@@ -1,10 +1,11 @@
 import { NextFunction, Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import { jwtData } from "../types/express";
+import { JWT_SECRET } from "../config/credentials";
 
-const validateToken = (token: string) => {
+export const validateToken = (token: string) => {
   try {
-    const secret = process.env.JWT_SECRET;
+    const secret = JWT_SECRET;
     if (!secret) {
       throw new Error("No hay secreto en .env");
     }
@@ -22,17 +23,21 @@ export const authMiddleware = (
   next: NextFunction
 ) => {
   try {
-    const authorization =
-      req.headers.authorization || req.headers["cookie"]?.split("=")[1];
+    const authorization = req.headers.authorization;
 
     if (!authorization) {
-       _res.status(401).json({ error: "Token no proporcionado" });
-       return
+      _res.status(401).json({ error: "Token no proporcionado" });
+      return;
     }
 
-    const validation = validateToken(authorization);
+    // Extrae el token después de "Bearer "
+    const token = authorization.startsWith("Bearer ")
+      ? authorization.slice(7)
+      : authorization;
 
-    if (validation === null){
+    const validation = validateToken(token);
+
+    if (validation === null) {
 
       _res.status(401).json({ message: "Access Denied" });
       return
@@ -45,6 +50,6 @@ export const authMiddleware = (
       .status(500)
       .json({ error: "Error interno en el middleware de autenticación" });
 
-      return
+    return
   }
 };

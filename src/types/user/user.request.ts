@@ -9,4 +9,6 @@ export interface IUserRequest extends IUserBase {
     modulo_id?: Types.ObjectId | null;
     regional_id: Types.ObjectId;
     centro_formacion_id: Types.ObjectId;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

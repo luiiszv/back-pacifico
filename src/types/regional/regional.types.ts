@@ -9,4 +9,6 @@ export interface RegionalInterface {
   id_departamento?: number; // Room
   nombre?: string;
   descripcion?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

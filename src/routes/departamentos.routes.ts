@@ -1,13 +1,10 @@
-
-import { DepartamentosController } from "../controllers/departamentos.controller";
 import { Router } from "express";
-const departamentosController = new DepartamentosController();
-
+import { DepartamentosController } from "../controllers/departamentos.controller";
 
 const router = Router();
 
-router.get("/", departamentosController.getAllDepartamentos.bind(departamentosController));
+const controller = new DepartamentosController();
 
-
+router.get("/", controller.getAllDepartamentos);
 
 export default router;

@@ -11,4 +11,7 @@ export interface CentroPobladoInterface {
     id_municipio: number; // ID del municipio para Room
     nombre: string; // Nombre del centro poblado
     tipo: string; // Tipo de centro poblado (ej. vereda, corregimiento, etc.)
+
+    createdAt?: Date;
+    updatedAt?: Date;
 }

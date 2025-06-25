@@ -1,10 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
 
-//Routes
-import userRouter from "./routes/users.routes";
-import rolesRouter from "./routes/roles.routes";
-import departamentosRouter from "./routes/departamentos.routes";
+import app from "./app";
 
 //Dadabase
 import { connectDb } from "./database/database";
@@ -12,23 +9,11 @@ import { connectDb } from "./database/database";
 //Seed
 // import { runModulosSeed } from "./seed/modulos.seed";
 
-config();
-const app = express();
-
-// Middleware
-app.use(express.json()); // Convierte la req.body a un JSON
-
-// Puerto
-app.set("port", process.env.PORT || 3000);
 
 
 
-// Ruta principal
-app.use("/auth", userRouter);
-app.use("/roles", rolesRouter);
 
 
-app.use("/departamentos", departamentosRouter);
 
 
 

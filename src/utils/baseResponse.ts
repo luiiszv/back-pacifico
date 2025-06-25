@@ -1,5 +1,6 @@
 import { ApiResponse } from "../types/api-response.interface";
 
+//Para sercios que devuelven una respuesta estandarizada
 export const buildSuccess = <T>(
   data: T,
   message = "Operación exitosa"

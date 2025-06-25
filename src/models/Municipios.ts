@@ -41,7 +41,7 @@ const MunicipiosSchema = new Schema<MunicipioInterface>({
 
     },
 
-});
+}, { timestamps: true });
 
 
 // ⚙️ Plugin para autoincrementar id_municipio

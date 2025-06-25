@@ -19,7 +19,7 @@ const rolSchema = new Schema<RolInterface>({
     type: String,
     required: false, // Op
   }
-});
+}, { timestamps: true });
 
 
 export default model<RolInterface>("Roles", rolSchema);

@@ -1,8 +1,9 @@
 
 
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
-
+const AutoIncrementFactory = require("mongoose-sequence")(mongoose); 
+const AutoIncrement = AutoIncrementFactory;
 
 const zonasSchema = new Schema({
     id_zona: {
@@ -15,7 +16,14 @@ const zonasSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "CentrosPoblados",
         required: true,
-        unique: true,
+
+    },
+
+    id_centro_poblado: {
+        type: Number, //Room
+        required: true,
+
+
     },
     nombre: {
         type: String,
@@ -26,5 +34,9 @@ const zonasSchema = new Schema({
         type: String,
     },
 });
+
+
+// ⚙️ Plugin para autoincrementar id_user
+zonasSchema.plugin(AutoIncrement, { inc_field: "id_zona" });
 
 export default model("Zonas", zonasSchema);

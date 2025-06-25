@@ -17,6 +17,6 @@ const ModuleShema = new Schema<ModuloInterface>({
   descripcion: {
     type: String,
   },
-});
+}, { timestamps: true });
 
 export default model<ModuloInterface>("Modulos", ModuleShema);

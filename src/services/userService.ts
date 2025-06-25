@@ -1,4 +1,5 @@
-import { UserInterface } from "../types/user.types";
+
+import { IUserRequest } from "../types/user/user.request";
 import { hash, compare } from "bcrypt";
 import {
   getAll,
@@ -9,13 +10,31 @@ import {
 
 import { createAccessToken } from "../libs/jwt";
 
+//RolRepository
+import { RolRepository } from "../repositories/rolRepository";
+
+
+const rolRepository = new RolRepository();
+
 /**
  * Registar usuario
  * @params user
  * @returns
  */
 
-const insertUser = async (user: UserInterface) => {
+const insertUser = async (user: IUserRequest) => {
+
+  const { rol_id } = user;
+
+  const rolExist = await rolRepository.findRolById(rol_id);
+
+  if (!rolExist) {
+    return {
+      success: false,
+      message: "Role not found",
+    };
+  }
+
   const passwordHashed = await hash(user.password, 10);
   const userPassHashed = { ...user, password: passwordHashed };
   const response = await createUser(userPassHashed);
@@ -96,9 +115,12 @@ const loginUser = async (email: string, password: string) => {
   };
 
   const token = await createAccessToken(payload);
+
+  console.log(token);
   return {
-    success: true,
-    token: token,
+    user: userExist,
+    token,
+ 
   };
 };
 export { insertUser, getUser, findUsers, deleteUser, loginUser };

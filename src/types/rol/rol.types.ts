@@ -1,9 +1,9 @@
 import { Types } from "mongoose";
 
 export interface RolInterface {
-  id_rol: Types.ObjectId;
+  id_rol: number;
   nombre: string;
-  description: string;
+  descripcion: string;
 }
 
 

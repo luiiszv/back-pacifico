@@ -4,7 +4,7 @@ import { config } from "dotenv";
 //Routes
 import userRouter from "./routes/users.routes";
 import rolesRouter from "./routes/roles.routes";
-
+import departamentosRouter from "./routes/departamentos.routes";
 
 //Dadabase
 import { connectDb } from "./database/database";
@@ -24,8 +24,12 @@ app.set("port", process.env.PORT || 3000);
 
 
 // Ruta principal
-app.use("/users", userRouter);
+app.use("/auth", userRouter);
 app.use("/roles", rolesRouter);
+
+
+app.use("/departamentos", departamentosRouter);
+
 
 
 

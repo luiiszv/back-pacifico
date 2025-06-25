@@ -1,14 +1,22 @@
 import mongoose, { Schema, model } from "mongoose";
 const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
-import { UserInterface } from "../types/user.types";
+import { IUserRequest } from "../types/user/user.request";
+import "../models/Regionales";
+import "../models/CentrosFormacion";
+import "../models/Modulos";
+import "../models/Roles";
+
+
+
+
 // ✅ Crea instancia del plugin
 const AutoIncrement = AutoIncrementFactory;
 
-const userSchema = new Schema<UserInterface>({
+const userSchema = new Schema<IUserRequest>({
   id_user: {
     type: Number,
     unique: true,
-    required: true
+
   },
   rol_id: {
     type: Schema.Types.ObjectId,
@@ -50,15 +58,15 @@ const userSchema = new Schema<UserInterface>({
   },
   rh: {
     type: String,
-    default: null
+    default: "-"
   },
   tratamiento_medico: {
     type: Boolean,
-    default: null
+    default: false
   },
   descripcion_tratamiento_medico: {
     type: String,
-    default: null
+    default: "-"
   },
   email: {
     type: String,
@@ -66,10 +74,7 @@ const userSchema = new Schema<UserInterface>({
     required: true,
     match: /.+\@.+\..+/
   },
-  email_verified_at: {
-    type: Date,
-    default: null
-  },
+
   password: {
     type: String,
     required: true
@@ -83,5 +88,5 @@ const userSchema = new Schema<UserInterface>({
 // ⚙️ Plugin para autoincrementar id_user
 userSchema.plugin(AutoIncrement, { inc_field: "id_user" });
 
-export default model("Usuarios", userSchema);
+export default model<IUserRequest>("Usuarios", userSchema);
 

@@ -22,7 +22,7 @@ export const registerRoles = async (req: Request, res: Response) => {
 };
 
 
-export const deleteRole = async ({params}: Request, res: Response) => {
+export const deleteRole = async ({ params }: Request, res: Response) => {
 
   try {
     const response = await dropRol(params.id);

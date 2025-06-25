@@ -1,9 +1,9 @@
 import { connectDb } from "../database/database";
 import { connection } from "mongoose";
 
-import { runModulosSeed } from "./modulos.seed"; //Moodulos
-import { runRolesSeed } from "./roles.seed";
-import { runDepartamentosSeed } from "./departamentos.seed";
+// import { runModulosSeed } from "./modulos.seed"; //Moodulos
+// import { runRolesSeed } from "./roles.seed";
+import { runUserSeed } from "./user.seed";
 
 
 
@@ -14,9 +14,10 @@ export const refreshDatabase = async () => {
     console.log("🧨 Limpiando colecciones...");
 
     console.log("--Ejecutando seeds...");
-    await runModulosSeed(); //Modulos
-    await runRolesSeed(); //Roles
-    await runDepartamentosSeed(); //Departamentos
+    // await runModulosSeed(); //Modulos
+    // await runRolesSeed(); //Roles
+    await runUserSeed(); //Usuarios
+
 
     console.log("--📅 Base de datos refrescada correctamente.");
   } catch (error) {

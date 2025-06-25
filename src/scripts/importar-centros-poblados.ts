@@ -4,6 +4,9 @@ import * as XLSX from 'xlsx';
 import Departamento from '../models/Departamento';
 import Municipio from '../models/Municipios';
 import CentroPoblado from '../models/CentrosPoblados';
+import Regionales from "../models/Regionales";
+import CentrosFormacion from "../models/CentrosFormacion";
+
 
 dotenv.config();
 
@@ -36,13 +39,15 @@ const importarDesdeExcel = async () => {
 
     const data = XLSX.utils.sheet_to_json<any>(workbook.Sheets[sheetName]);
 
-    //    await mongoose.connection.collection('centrospoblados').dropIndex('municipio_id_1').catch(() => {});
-    // console.log('🔁 Índice municipio_id eliminado');
+    await mongoose.connection.collection('centrospoblados').dropIndex('municipio_id_1').catch(() => { });
+    console.log('🔁 Índice municipio_id eliminado');
 
-    // await Departamento.deleteMany({});
-    // await Municipio.deleteMany({});
-    // await CentroPoblado.deleteMany({});
-    // console.log('🧹 Colecciones limpiadas');
+    await Departamento.deleteMany({});
+    await Municipio.deleteMany({});
+    await CentroPoblado.deleteMany({});
+    await Regionales.deleteMany({});
+    await CentrosFormacion.deleteMany({});
+    console.log('🧹 Colecciones limpiadas');
 
 
 

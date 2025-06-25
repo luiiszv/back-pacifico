@@ -8,7 +8,7 @@
     "start": "node build/index.js",
     "tsc": "tsc",
     "refresh:db": "ts-node src/scripts/refreshDb.ts",
-    "insertPlaces:db": "npx ts-node src/scripts/insertPlaces.ts"
+    "insertPlaces:db": "npx ts-node src/scripts/importar-centros-poblados.ts"
   },
   "keywords": [],
   "author": "",

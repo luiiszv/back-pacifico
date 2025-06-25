@@ -43,7 +43,7 @@ export const getAllUsers = async (_req: Request, res: Response) => {
 
 export const login = async ({ body }: Request, res: Response) => {
   try {
-    const { success, token } = await loginUser(
+    const { success, token, user } = await loginUser(
       body.email,
       body.password
     );
@@ -54,8 +54,9 @@ export const login = async ({ body }: Request, res: Response) => {
       sameSite: "strict",
     });
 
-    res.status(200).json({ success, token });
+    res.status(200).json({ success, user, token });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: "Something went wrong in login", error });
   }
 };

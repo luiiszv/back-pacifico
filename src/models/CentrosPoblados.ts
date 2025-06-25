@@ -1,7 +1,7 @@
 
 
 import mongoose, { model, Schema } from "mongoose";
-import { CentroPobladoInterface } from "../types/centroPoblado.types";
+import { CentroPobladoInterface } from "../types/centroPoblado/centroPoblado.types";
 
 const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
 

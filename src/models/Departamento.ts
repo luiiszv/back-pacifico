@@ -3,7 +3,7 @@ const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia e
 
 
 //Interface del Departamento
-import { DepartamentoInterface } from "../types/departamento.types";
+import { DepartamentoInterface } from "../types/departamento/departamento.types";
 
 // ✅ Crea instancia del plugin
 const AutoIncrement = AutoIncrementFactory;

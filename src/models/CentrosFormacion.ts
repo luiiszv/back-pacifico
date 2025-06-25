@@ -1,5 +1,5 @@
 import mongoose, { model, Schema } from "mongoose";
-import { ICentroFormacionInterface } from "../types/CentroFormacion.types";
+import { ICentroFormacionInterface } from "../types/centroFormacion/CentroFormacion.types";
 
 const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
 

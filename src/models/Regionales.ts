@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { RegionalInterface } from "../types/regional.types";
+import { RegionalInterface } from "../types/regional/regional.types";
 
 const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
 

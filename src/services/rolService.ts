@@ -1,5 +1,8 @@
-import { RolInterface } from "../types/rol.types";
-import { createRol, getAllRols, findAndDeleteRol } from "../repositories/rolRepository";
+import { RolInterface } from "../types/rol/rol.types";
+import { RolRepository } from "../repositories/rolRepository";
+import { Types } from "mongoose";
+
+const rolRepository = new RolRepository();
 
 /**
  * Consultar Roles
@@ -8,10 +11,20 @@ import { createRol, getAllRols, findAndDeleteRol } from "../repositories/rolRepo
  */
 
 const findRoles = async () => {
-  const roles = await getAllRols();
+  const roles = await rolRepository.getAllRols();
   return {
     susccess: true,
     data: roles,
+  };
+};
+
+
+
+const findRolId = async (id: Types.ObjectId) => {
+  const rol = await rolRepository.findRolById(id);
+  return {
+    success: true,
+    data: rol,
   };
 };
 
@@ -23,8 +36,8 @@ const findRoles = async () => {
 
 const InsertRoles = async (rol: RolInterface) => {
 
-  const response= await createRol(rol);
-  
+  const response = await rolRepository.createRol(rol);
+
   return {
     success: true,
     message: "Rol created",
@@ -43,7 +56,7 @@ const InsertRoles = async (rol: RolInterface) => {
  */
 
 const dropRol = async (_id: string) => {
-  const response = await findAndDeleteRol(_id);
+  const response = await rolRepository.findAndDeleteRol(_id);
 
   return {
     success: true,
@@ -61,4 +74,4 @@ const dropRol = async (_id: string) => {
 
 
 
-export { findRoles, InsertRoles, dropRol };
+export { findRoles, InsertRoles, dropRol, findRolId };

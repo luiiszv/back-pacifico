@@ -1,7 +1,7 @@
 
 
 import mongoose, { Schema, model } from "mongoose";
-import { MunicipioInterface } from "../types/municipio.types";
+import { MunicipioInterface } from "../types/municipio/municipio.types";
 
 
 const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea

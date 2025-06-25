@@ -1,6 +1,8 @@
 import { model, Schema } from "mongoose";
 
-const ModuleShema = new Schema({
+import { ModuloInterface } from "../types/modulo/module.types";
+
+const ModuleShema = new Schema<ModuloInterface>({
 
   id_modulo: {
     type: Number,
@@ -17,4 +19,4 @@ const ModuleShema = new Schema({
   },
 });
 
-export default model("Modulos", ModuleShema);
+export default model<ModuloInterface>("Modulos", ModuleShema);

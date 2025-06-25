@@ -1,6 +1,8 @@
 import { Schema, model } from "mongoose";
 
-const rolSchema = new Schema({
+import { RolInterface } from "../types/rol/rol.types";
+
+const rolSchema = new Schema<RolInterface>({
 
   id_rol: {
     type: Number,
@@ -20,4 +22,4 @@ const rolSchema = new Schema({
 });
 
 
-export default model("Roles", rolSchema);
+export default model<RolInterface>("Roles", rolSchema);

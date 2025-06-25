@@ -1,52 +1,35 @@
 
 import UserModel from "../models/Usuarios";
 
-export const runRolesSeed = async () => {
+import { insertUser } from "../services/userService";
+import { IUserRequest } from "../types/user/user.request";
+import { Types } from "mongoose";
+
+export const runUserSeed = async () => {
     const count = await UserModel.countDocuments();
 
-    const usuarios = [
-        {
-            id_user: 1,
-            rol_id: "685b1dd4df33b98b6fffd9b7", // Rol: Administrador
-            modulo_id: null,
-            regional_id: "665b1aa6bc1793fbeea74d1a", // Reemplaza con el _id real de tu regional
-            centro_formacion_id: "665b1bb1e927da8c4fb48f3e", // Reemplaza con el _id real del centro
-            tipo_documento_identidad: "CC",
-            documento_identidad: "100000001",
-            nombres: "Luis",
-            apellidos: "Administrador",
-            rh: "O+",
-            tratamiento_medico: false,
-            descripcion_tratamiento_medico: null,
-            email: "admin@pacifico.com",
-            email_verified_at: new Date(),
-            password: "admin1234", // Recuerda hashear antes de guardar
-            estado: true,
-        },
-        {
-            id_user: 2,
-            rol_id: "685b1dd4df33b98b6fffd9b7", // Otro rol si deseas cambiar
-            modulo_id: null,
-            regional_id: "665b1aa6bc1793fbeea74d1a",
-            centro_formacion_id: "665b1bb1e927da8c4fb48f3e",
-            tipo_documento_identidad: "CC",
-            documento_identidad: "100000002",
-            nombres: "María",
-            apellidos: "García",
-            rh: "A+",
-            tratamiento_medico: false,
-            descripcion_tratamiento_medico: null,
-            email: "maria@pacifico.com",
-            email_verified_at: null,
-            password: "maria1234", // También hashear antes de guardar
-            estado: true,
-        },
-    ];
+    const usuario: IUserRequest = {
+        rol_id: new Types.ObjectId("685c182bfaae605c185aa5a7"),
+        modulo_id: null,
+        regional_id: new Types.ObjectId("685c16c7ebc84dd3b410c8c7"),
+        centro_formacion_id: new Types.ObjectId("685c17592a26897cec8c56eb"),
+        tipo_documento_identidad: "CC",
+        documento_identidad: "1002953841",
+        nombres: "Luis",
+        apellidos: "Martínez",
+        rh: "O+",
+        tratamiento_medico: false,
+        descripcion_tratamiento_medico: "-",
+        email: "luis@gmail.com",
+        password: "luis1234",
+        estado: true,
+    };
 
 
-    await UserModel.deleteMany({});
+
+    await insertUser(usuario); // Crea el primer usuario
     console.log(`-- Colección 'usuarios' limpia. ${count}`);
-    await UserModel.insertMany(usuarios);
+
     console.log("-- Usuarios insertados correctamente.");
 };
 

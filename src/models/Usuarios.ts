@@ -27,7 +27,7 @@ const userSchema = new Schema<UserInterface>({
   },
   centro_formacion_id: {
     type: Schema.Types.ObjectId,
-    ref: "CentroFormacion", // Ajusta si el modelo real tiene otro nombre
+    ref: "CentrosDeFormacion", // Ajusta si el modelo real tiene otro nombre
     required: true
   },
   tipo_documento_identidad: {

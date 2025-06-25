@@ -1,6 +1,7 @@
 
 
 import mongoose, { Schema, model } from "mongoose";
+import { MunicipioInterface } from "../types/municipio.types";
 
 
 const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
@@ -9,24 +10,32 @@ const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia e
 // ✅ Crea instancia del plugin
 const AutoIncrement = AutoIncrementFactory;
 
-const MunicipiosSchema = new Schema({
+const MunicipiosSchema = new Schema<MunicipioInterface>({
 
-    id_municipio: {
+    id_municipio: { //id autoincremental
+        type: Number,
+        unique: true,
+    },
+
+    codigo_municipio: { //del dane
         type: String,
         required: true,
         unique: true
     },
-    codigo_municipio: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    departamento_id: {
+    departamento_id: { //Populate con el id del departamento 
         type: Schema.Types.ObjectId,
         ref: "Departamentos",
+        required: true
     },
 
-    nombre: {
+    id_departamento: { // para Room 
+        type: Number,
+        required: true,
+     
+    },
+
+
+    nombre: { // Nombre del municipio
         type: String,
         required: true
 
@@ -38,4 +47,4 @@ const MunicipiosSchema = new Schema({
 // ⚙️ Plugin para autoincrementar id_municipio
 MunicipiosSchema.plugin(AutoIncrement, { inc_field: "id_municipio" });
 
-export default model("Municipios", MunicipiosSchema);
+export default model<MunicipioInterface>("Municipios", MunicipiosSchema);

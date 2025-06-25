@@ -2,24 +2,24 @@ import mongoose, { model, Schema } from "mongoose";
 const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
 
 
+//Interface del Departamento
+import { DepartamentoInterface } from "../types/departamento.types";
+
 // ✅ Crea instancia del plugin
 const AutoIncrement = AutoIncrementFactory;
 
+const DepartamentoSchema = new Schema<DepartamentoInterface>({
 
-
-const DepartamentoSchema = new Schema({
-
-  id_departamento: {
+  id_departamento: { //id autoincremental
     type: Number,
-    required: true,
     unique: true,
   },
-  codigo_departamento: {
+  codigo_departamento: { //del dane
     type: String,
     required: true,
     unique: true,
   },
-  nombre: {
+  nombre: { //Nombre del departamento
     type: String,
     required: true,
     unique: true,
@@ -30,4 +30,4 @@ const DepartamentoSchema = new Schema({
 // ⚙️ Plugin para autoincrementar id_departamento
 DepartamentoSchema.plugin(AutoIncrement, { inc_field: "id_departamento" });
 
-export default model("Departamentos", DepartamentoSchema);
+export default model<DepartamentoInterface>("Departamentos", DepartamentoSchema);

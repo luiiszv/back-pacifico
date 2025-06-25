@@ -3,9 +3,11 @@ import { RegionalInterface } from "../types/regional.types";
 
 
 
-export interface CentroFormacionInterface {
+export interface ICentroFormacionInterface {
+  _id: Types.ObjectId;
   id_centro_formacion: number;
   regional_id: RegionalInterface | Types.ObjectId;
+  id_regional: number;
   nombre: string;
-  descripcion?: string;
+  direccion?: string;
 }

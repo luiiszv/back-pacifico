@@ -1,27 +1,40 @@
-import { model, Schema, Types } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
+import { ICentroFormacionInterface } from "../types/CentroFormacion.types";
 
-const CentroFormacionShema = new Schema({
+const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
 
+
+// ✅ Crea instancia del plugin
+const AutoIncrement = AutoIncrementFactory;
+
+const CentroFormacionShema = new Schema<ICentroFormacionInterface>({
+   
     id_centro_formacion: {
         type: Number,
-        required: true,
         unique: true,
     },
 
     regional_id: {
         type: Schema.Types.ObjectId,
         ref: "Regionales",
-        unique: true,
+
+    },
+    id_regional: {
+        type: Number,
+        required: true, // Room
     },
     nombre: {
         type: String,
         required: true,
         unique: true,
     },
-    descripcion: {
+    direccion: {
         type: String,
         required: false,
     },
 });
 
-export default model("CentroFormacion", CentroFormacionShema);
+// ⚙️ Plugin para autoincrementar id_centro_formacion
+CentroFormacionShema.plugin(AutoIncrement, { inc_field: "id_centro_formacion" });
+
+export default model<ICentroFormacionInterface>("CentrosDeFormacion", CentroFormacionShema);

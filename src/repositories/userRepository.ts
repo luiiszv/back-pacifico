@@ -13,23 +13,40 @@ export const createUser = async (user: IUserRequest) => {
 };
 
 export const findUserByEmail = async (email: string): Promise<IUserResponse | null> => {
-  return await UserModel.findOne({ email })
+  const user = await UserModel.findOne({ email })
     .populate("rol_id")
     .populate("regional_id")
     .populate("centro_formacion_id")
     .populate("modulo_id")
     .lean();
+
+  return user as IUserResponse;
+
+};
+
+
+export const findUserByNumeroDocumento = async (documento_identidad: string): Promise<IUserResponse | null> => {
+  const user = await UserModel.findOne({ documento_identidad })
+    .populate("rol_id")
+    .populate("regional_id")
+    .populate("centro_formacion_id")
+    .populate("modulo_id")
+    .lean();
+
+  return user as IUserResponse;
 
 };
 
 
 export const findUserById = async (idUser: Types.ObjectId): Promise<IUserResponse | null> => {
-  return await UserModel.findById(idUser)
+  const user = await UserModel.findById(idUser)
     .populate("rol_id")
     .populate("regional_id")
     .populate("centro_formacion_id")
     .populate("modulo_id")
     .lean();
+
+  return user as IUserResponse;
 
 };
 

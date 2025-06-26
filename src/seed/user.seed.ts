@@ -7,12 +7,14 @@ import { Types } from "mongoose";
 
 export const runUserSeed = async () => {
     const count = await UserModel.countDocuments();
+    await UserModel.deleteMany({});
 
     const usuario: IUserRequest = {
-        rol_id: new Types.ObjectId("685c182bfaae605c185aa5a7"),
-        modulo_id: null,
-        regional_id: new Types.ObjectId("685c16c7ebc84dd3b410c8c7"),
-        centro_formacion_id: new Types.ObjectId("685c17592a26897cec8c56eb"),
+
+        id_rol: 1,
+        id_modulo: null,
+        id_regional: 10,
+        id_centro_formacion: 44,
         tipo_documento_identidad: "CC",
         documento_identidad: "1002953841",
         nombres: "Luis",

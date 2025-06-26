@@ -6,15 +6,11 @@ import {
   createUser,
   findUserByEmail,
   delteOneUser,
-  findUserById
+  findUserById,
+  findUserByNumeroDocumento
 } from "../repositories/userRepository";
 
 import { createAccessToken } from "../libs/jwt";
-
-//RolRepository
-import { RolRepository } from "../repositories/rolRepository";
-
-
 
 import { validateToken } from "../middleware/auth";
 
@@ -22,9 +18,25 @@ import { buildError, buildSuccess } from "../utils/baseResponse";
 import { id } from "zod/v4/locales";
 import { Types } from "mongoose";
 import { IUserResponse } from "../types/user/user.response";
+//Repository
+import { RolRepository } from "../repositories/rolRepository";
+import { CentroFormacionRepository } from "../repositories/centrosFormacion.repository";
+import { ModuloRepository } from "../repositories/modulo.repository";
+import { RegionalRepository } from "../repositories/regional.respository";
 
 
+
+//Instance
 const rolRepository = new RolRepository();
+const centroFormacionRepository = new CentroFormacionRepository();
+const moduloRepository = new ModuloRepository();
+const regionalRepository = new RegionalRepository();
+
+
+
+
+
+
 
 /**
  * Registar usuario
@@ -33,27 +45,61 @@ const rolRepository = new RolRepository();
  */
 
 const insertUser = async (user: IUserRequest) => {
+  const {
+    id_rol,
+    id_modulo,
+    id_regional,
+    id_centro_formacion,
+    password,
+    email,
+    documento_identidad,
+  } = user;
 
-  const { rol_id } = user;
-
-  const rolExist = await rolRepository.findRolById(rol_id);
-
-  if (!rolExist) {
-    return {
-      success: false,
-      message: "Role not found",
-    };
+  // ❌ Validar si ya existe un usuario con el mismo email
+  const userExist = await findUserByEmail(email);
+  if (userExist) {
+    return buildError("El email ya está registrado", [{ path: "email", message: "Este correo ya existe" }], 409);
   }
 
-  const passwordHashed = await hash(user.password, 10);
-  const userPassHashed = { ...user, password: passwordHashed };
-  const response = await createUser(userPassHashed);
-  return {
-    success: true,
-    message: "User registred",
-    data: response,
+  // (opcional) También puedes validar documento_identidad si lo deseas
+  const userByDoc = await findUserByNumeroDocumento(documento_identidad);
+  if (userByDoc) {
+    return buildError("Numero de Documento ya registrado", [{ path: "documento_identidad", message: "Este documento ya existe" }], 409);
+  }
+
+  // ✅ Validar entidades relacionadas en paralelo
+  const [rol, centroFormacion, regional, modulo] = await Promise.all([
+    rolRepository.findRolByIdRol(id_rol),
+    centroFormacionRepository.findCentroFormaiconByIdCentroFormacion(id_centro_formacion),
+    regionalRepository.findRegionalByIdRegional(id_regional),
+    id_modulo != null ? moduloRepository.findModuloByIdModulo(id_modulo) : Promise.resolve(null)
+  ]);
+
+
+  if (!rol) return buildError("Rol no encontrado", [{ path: "id_rol", message: "El rol especificado no existe" }], 404);
+  if (!centroFormacion) return buildError("Centro de formación no encontrado", [{ path: "id_centro_formacion", message: "El centro de formación no existe" }], 404);
+  if (!regional) return buildError("Regional no encontrada", [{ path: "id_regional", message: "La regional especificada no existe" }], 404);
+  if (id_modulo != null && !modulo)
+    return buildError("Módulo no encontrado", [{ path: "id_modulo", message: "El módulo especificado no existe" }], 404);
+
+  const passwordHashed = await hash(password, 10);
+
+  // 📝 Preparar objeto con referencias internas
+  const userToSave = {
+    ...user,
+    password: passwordHashed,
+    rol_id: rol._id,
+    centro_formacion_id: centroFormacion._id,
+    regional_id: regional._id,
+    modulo_id: modulo?._id || null
   };
+
+  const response = await createUser(userToSave);
+
+  return buildSuccess(response, "Usuario creado correctamente");
 };
+
+
 
 /**
  * Consultar un usuario

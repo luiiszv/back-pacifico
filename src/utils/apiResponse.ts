@@ -16,6 +16,7 @@ export const successResponse = <T>(
   });
 };
 
+
 export const errorResponse = (
   res: Response,
   message = "Ocurrió un error en el servidor",
@@ -28,3 +29,4 @@ export const errorResponse = (
     error,
   });
 };
+

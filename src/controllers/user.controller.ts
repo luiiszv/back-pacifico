@@ -6,18 +6,25 @@ import {
   loginUser,
   getUserById
 } from "../services/userService";
-import { buildSuccess } from "../utils/baseResponse";
+
 import { successResponse, errorResponse } from "../utils/apiResponse";
 
-export const registerUsers = async ({ body }: Request, res: Response) => {
+
+
+
+export const registerUsers = async ({ body }: Request, res: Response): Promise<any> => {
   try {
-    const user = await insertUser(body);
-    res.status(200).json(user);
+    const response = await insertUser(body);
+
+
+    if (!response.success) {
+      return errorResponse(res, response.message, response.statusCode, response.error);
+    }
+
+    return successResponse(res, response.data);
   } catch (error) {
     console.log(error);
-    res
-      .status(400)
-      .json({ message: "Something went wrong in registerUsers", error });
+    return errorResponse(res, "Internal Server Error", 500, error);
   }
 };
 

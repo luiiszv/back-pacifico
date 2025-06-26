@@ -15,6 +15,10 @@ export class RolRepository {
     return await RolModel.findById(id);
   }
 
+  public async findRolByIdRol(id_rol: number): Promise<RolInterface | null> {
+    return await RolModel.findOne({ id_rol });
+  }
+
   public async getAllRols() {
     return await RolModel.find();
   }

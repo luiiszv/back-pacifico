@@ -13,29 +13,48 @@ import "../models/Roles";
 const AutoIncrement = AutoIncrementFactory;
 
 const userSchema = new Schema<IUserRequest>({
-  id_user: {
+  id_user: { //Autoincrement para Room Pk
     type: Number,
     unique: true,
 
   },
   rol_id: {
-    type: Schema.Types.ObjectId,
-    ref: "Roles",
+    type: Schema.Types.ObjectId, //Relacion con Mongo
+    ref: "Roles",  //No es req por que se asigna si existe
+  },
+
+  id_rol: {
+    type: Number, //Relacion con Mongo
     required: true
   },
   modulo_id: {
-    type: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId, //Relacion con Mongo
     ref: "Modulos",
     default: null
   },
+  id_modulo: {
+    type: Number, //Relacion con room
+    required: false,
+    default: null
+  },
   regional_id: {
-    type: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId, //Relacion con Mongo
     ref: "Regionales",
+    
+  },
+
+  id_regional: {
+    type: Number, //Relacion con room
     required: true
   },
   centro_formacion_id: {
     type: Schema.Types.ObjectId,
     ref: "CentrosDeFormacion", // Ajusta si el modelo real tiene otro nombre
+   
+  },
+
+   id_centro_formacion: {
+    type: Number,
     required: true
   },
   tipo_documento_identidad: {

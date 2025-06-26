@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
     "start": "node build/index.js",
-    "build": "rimraf build && tsc",
+    "build": "tsc",
     "tsc": "tsc",
     "refresh:db": "ts-node src/scripts/refreshDb.ts",
     "insertPlaces:db": "npx ts-node src/scripts/importar-centros-poblados.ts"

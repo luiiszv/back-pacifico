@@ -46,7 +46,7 @@ export const getAllUsers = async (_req: Request, res: Response) => {
 
 export const login = async ({ body }: Request, res: Response): Promise<any> => {
   try {
-    const { success, token, user } = await loginUser(
+    const response = await loginUser(
       body.email,
       body.password
     );
@@ -55,7 +55,11 @@ export const login = async ({ body }: Request, res: Response): Promise<any> => {
     //   secure: true,
     //   sameSite: "strict",
     // });
-    res.status(200).json({ success, user, token });
+    if (!response.success) {
+      errorResponse(res, response.error);
+    }
+
+    successResponse(res, response.data, response.message)
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Something went wrong in login", error });
@@ -68,10 +72,10 @@ export const verify = async (req: Request, res: Response): Promise<any> => {
     const response = await getUserById(req.user?._id)
 
     if (!response.success) {
-      return errorResponse(res, response.message);
+      return errorResponse(res, response.error);
     }
 
-    return successResponse(res, response.data);
+    return successResponse(res, response.data, response.message);
 
   } catch (error) {
     console.log(error);

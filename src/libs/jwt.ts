@@ -34,7 +34,7 @@ export const createAccessToken = (
 
       resolve({
         token,
-        expires_in: expiresInSeconds ,
+        expires_in: expiresInSeconds 
       });
     });
   });

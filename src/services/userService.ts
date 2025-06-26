@@ -101,40 +101,36 @@ const deleteUser = async (_id: string) => {
  * @params email, password
  * @returns token
  */
-
 const loginUser = async (email: string, password: string) => {
   const userExist = await findUserByEmail(email);
   if (!userExist) {
-    return {
-      success: false,
-      message: "User not found",
-    };
+    return buildError("Usuario no encontrado");
   }
 
   const match = await compare(password, userExist.password);
   if (!match) {
-    return {
-      success: false,
-      message: "Incorrect Password",
-    };
+    return buildError("Contraseña incorrecta");
   }
+
   const payload = {
     _id: userExist._id,
-    id_user: userExist.id_user, //Room
+    id_user: userExist.id_user,
     rol_id: userExist.rol_id,
     modulo_id: userExist.modulo_id,
     email: userExist.email,
   };
 
-  const token = await createAccessToken(payload);
+  const { token } = await createAccessToken(payload);
 
-  console.log(token);
-  return {
-    user: userExist,
-    token,
-
-  };
+  return buildSuccess(
+    {
+      user: userExist,
+      token: token
+    },
+    "Login exitoso"
+  );
 };
+
 
 
 const getUserById = async (idUser: Types.ObjectId) => {

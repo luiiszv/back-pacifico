@@ -3,5 +3,7 @@ node_modules
 build/
 .env
 
+data_centro_formacion
+
 
 

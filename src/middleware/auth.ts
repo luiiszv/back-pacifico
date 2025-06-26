@@ -3,10 +3,6 @@ import jwt from "jsonwebtoken";
 import { jwtData } from "../types/express";
 import { JWT_SECRET } from "../config/credentials";
 
-//Res
-import { successResponse, errorResponse } from "../utils/apiResponse";
-import { buildError, buildSuccess } from "../utils/baseResponse";
-
 export const validateToken = (token: string) => {
   try {
     const secret = JWT_SECRET;
@@ -30,9 +26,8 @@ export const authMiddleware = (
     const authorization = req.headers.authorization;
 
     if (!authorization) {
-      const response = buildError("Token no válido", null, 401);
-      return errorResponse(_res, response.message, response.statusCode, response.error);
-
+      _res.status(401).json({ error: "Token no proporcionado" });
+      return;
     }
 
     // Extrae el token después de "Bearer "
@@ -44,14 +39,17 @@ export const authMiddleware = (
 
     if (validation === null) {
 
-      const response = buildError("Token inválido o expirado", null, 401);
-      return errorResponse(_res, response.message, response.statusCode, response.error);
+      _res.status(401).json({ message: "Access Denied" });
+      return
     }
     req.user = validation;
 
     return next();
   } catch (error) {
-    const response = buildError("Error interno en autenticación", error, 500);
-    return errorResponse(_res, response.message, response.statusCode, response.error);
+    _res
+      .status(500)
+      .json({ error: "Error interno en el middleware de autenticación" });
+
+    return
   }
 };

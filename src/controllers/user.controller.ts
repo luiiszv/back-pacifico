@@ -63,10 +63,10 @@ export const login = async ({ body }: Request, res: Response): Promise<any> => {
     //   sameSite: "strict",
     // });
     if (!response.success) {
-      errorResponse(res, response.error);
+      return errorResponse(res, response.message);
     }
 
-    successResponse(res, response.data, response.message)
+    return successResponse(res, response.data, response.message)
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Something went wrong in login", error });

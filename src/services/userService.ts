@@ -150,12 +150,12 @@ const deleteUser = async (_id: string) => {
 const loginUser = async (email: string, password: string) => {
   const userExist = await findUserByEmail(email);
   if (!userExist) {
-    return buildError("Usuario no encontrado");
+    return buildError("Usuario no encontrado", null, 401);
   }
 
   const match = await compare(password, userExist.password);
   if (!match) {
-    return buildError("Contraseña incorrecta");
+    return buildError("Contraseña incorrecta",null, 401);
   }
 
   const payload = {

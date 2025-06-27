@@ -63,7 +63,7 @@ export const login = async ({ body }: Request, res: Response): Promise<any> => {
     //   sameSite: "strict",
     // });
     if (!response.success) {
-      return errorResponse(res, response.message);
+      return errorResponse(res, response.message, response.statusCode);
     }
 
     return successResponse(res, response.data, response.message)

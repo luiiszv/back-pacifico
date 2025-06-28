@@ -17,8 +17,11 @@ export const registerUsers = async ({ body }: Request, res: Response): Promise<a
     const response = await insertUser(body);
 
 
+
+
     if (!response.success) {
-      return errorResponse(res, response.message, response.statusCode, response.error);
+      // Devuelve error estandarizado
+      return errorResponse(res, response.message, response.statusCode, response.errors);
     }
 
     return successResponse(res, response.data);
@@ -63,10 +66,10 @@ export const login = async ({ body }: Request, res: Response): Promise<any> => {
     //   sameSite: "strict",
     // });
     if (!response.success) {
-      return errorResponse(res, response.message, response.statusCode);
+      return errorResponse(res, response.message, response.statusCode, response.errors);
     }
 
-    return successResponse(res, response.data, response.message)
+    return successResponse(res, response.data, response.message, response.errors)
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Something went wrong in login", error });
@@ -79,7 +82,7 @@ export const verify = async (req: Request, res: Response): Promise<any> => {
     const response = await getUserById(req.user?._id)
 
     if (!response.success) {
-      return errorResponse(res, response.error);
+      return errorResponse(res, response.errors);
     }
 
     return successResponse(res, response.data, response.message);

@@ -61,10 +61,15 @@ const insertUser = async (user: IUserRequest) => {
     return buildError("El email ya está registrado", [{ path: "email", message: "Este correo ya existe" }], 409);
   }
 
-  // (opcional) También puedes validar documento_identidad si lo deseas
+
+
   const userByDoc = await findUserByNumeroDocumento(documento_identidad);
   if (userByDoc) {
-    return buildError("Numero de Documento ya registrado", [{ path: "documento_identidad", message: "Este documento ya existe" }], 409);
+    return buildError(
+      "Número de Documento ya registrado",
+      [{ path: "documento_identidad", message: "Este documento ya existe" }],
+      409
+    );
   }
 
   // ✅ Validar entidades relacionadas en paralelo
@@ -150,12 +155,17 @@ const deleteUser = async (_id: string) => {
 const loginUser = async (email: string, password: string) => {
   const userExist = await findUserByEmail(email);
   if (!userExist) {
-    return buildError("Usuario no encontrado", null, 401);
+    return buildError(
+      "Usuario no encontrado",
+      [{ path: "email", message: "No existe un usuario registrado con este correo" }],
+      401
+    );
   }
+
 
   const match = await compare(password, userExist.password);
   if (!match) {
-    return buildError("Contraseña incorrecta",null, 401);
+    return buildError("Contraseña incorrecta", [{ path: "password", message: "Contraseña Incorrecta" }], 401);
   }
 
   const payload = {
@@ -184,9 +194,9 @@ const getUserById = async (idUser: Types.ObjectId) => {
   const user = await findUserById(idUser)
 
   if (!user) {
-    return buildError("User not found", 404);
+    return buildError("User not found", [{path: "_id", message: "User not Found"}] ,404);
   }
 
-  return buildSuccess(user, "Usuario encontrado");
+  return buildSuccess(user, "Usuario encontrado", 200);
 };
 export { insertUser, getUser, findUsers, deleteUser, loginUser, getUserById };

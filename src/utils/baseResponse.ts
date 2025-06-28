@@ -17,27 +17,31 @@ export const buildSuccess = <T>(
 });
 
 
-export const buildError = (
-  message = "Ocurrió un error en el servidor",
-  error?: any,
-  statusCode = 500
-): ApiResponse<null> & { statusCode: number } => {
-  let parsedError = error;
+interface FieldError {
+  path: string;
+  message: string;
+}
 
-  // Si es un error de Zod, parseamos los errores
-  if (error instanceof ZodError) {
-    parsedError = error.errors.map((err) => ({
-      path: err.path.join("."), // ejemplo: "email", "direccion.ciudad"
+export const buildError = (
+  message = "Ocurrió un error en la validación",
+  errors?: ZodError | FieldError[],
+  statusCode = 400
+): ApiResponse<null> & { statusCode: number } => {
+  let parsedErrors: FieldError[] = [];
+
+  if (errors instanceof ZodError) {
+    parsedErrors = errors.errors.map((err) => ({
+      path: err.path.join("."),
       message: err.message,
     }));
-    statusCode = 400; // Bad Request por error de validación
+  } else if (Array.isArray(errors)) {
+    parsedErrors = errors;
   }
 
   return {
     success: false,
     message,
-    error: parsedError,
+    errors: parsedErrors,
     statusCode,
   };
 };
-

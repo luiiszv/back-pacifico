@@ -21,12 +21,12 @@ export const errorResponse = (
   res: Response,
   message = "Ocurrió un error en el servidor",
   statusCode = 500,
-  error?: any
+  errors?: any
 ): Response<ApiResponse<null>> => {
   return res.status(statusCode).json({
     success: false,
     message,
-    error,
+    errors,
   });
 };
 

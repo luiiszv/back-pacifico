@@ -12,7 +12,7 @@ export class CentrosPobladosController {
     
             if (!response.success) {
 
-                return errorResponse(res, response.error)
+                return errorResponse(res, response.errors)
             }
 
             return successResponse(res, response.data)

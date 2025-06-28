@@ -2,6 +2,9 @@ import { NextFunction, Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import { jwtData } from "../types/express";
 import { JWT_SECRET } from "../config/credentials";
+import { buildError } from "../utils/baseResponse";
+
+import { RequestHandler } from "express";
 
 export const validateToken = (token: string) => {
   try {
@@ -17,39 +20,39 @@ export const validateToken = (token: string) => {
   }
 };
 
-export const authMiddleware = (
-  req: Request,
-  _res: Response,
-  next: NextFunction
-) => {
+
+export const authMiddleware: RequestHandler = (req, res, next) => {
   try {
     const authorization = req.headers.authorization;
 
     if (!authorization) {
-      _res.status(401).json({ error: "Token no proporcionado" });
-      return;
+      const response = buildError("Token no proporcionado", [], 401);
+      res.status(response.statusCode).json(response);
+      return; // 👈 evita continuar
     }
 
-    // Extrae el token después de "Bearer "
     const token = authorization.startsWith("Bearer ")
       ? authorization.slice(7)
       : authorization;
 
     const validation = validateToken(token);
 
-    if (validation === null) {
-
-      _res.status(401).json({ message: "Access Denied" });
-      return
+    if (!validation) {
+      const response = buildError("Token inválido o expirado", [], 401);
+      res.status(response.statusCode).json(response);
+      return; // 👈 evita continuar
     }
+
     req.user = validation;
-
-    return next();
+    next(); // ✅ avanza al siguiente middleware
   } catch (error) {
-    _res
-      .status(500)
-      .json({ error: "Error interno en el middleware de autenticación" });
-
-    return
+    const response = buildError(
+      "Error interno en el middleware de autenticación",
+      error instanceof Error
+        ? [{ path: "middleware", message: error.message }]
+        : [],
+      500
+    );
+    res.status(response.statusCode).json(response);
   }
 };

@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { z } from "zod";
 
+import { errorResponse } from "../utils/apiResponse";
+
 const registerUserSchema = z.object({
   tipo_documento_identidad: z.enum(["CC", "TI", "CE", "PASAPORTE"], {
     required_error: "Tipo de documento es requerido"

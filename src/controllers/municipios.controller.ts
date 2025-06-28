@@ -13,7 +13,7 @@ export class MunicipiosController {
 
             const response = await municipiosService.getAllMunicipios();
             if (!response.success) {
-                return errorResponse(res, response.message);
+                return errorResponse(res, response.message,  response.errors);
 
             }
 

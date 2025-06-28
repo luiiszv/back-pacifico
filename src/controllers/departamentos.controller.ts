@@ -16,7 +16,7 @@ export class DepartamentosController {
             const response = await departamentosService.getAllDepartamentos();
 
             if (!response.success) {
-                return errorResponse(res, response.message); 
+                return errorResponse(res, response.message, response.errors); 
             }
 
             return successResponse(res, response.data);

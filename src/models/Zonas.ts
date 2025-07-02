@@ -30,8 +30,9 @@ const zonasSchema = new Schema({
         required: true,
         unique: true,
     },
-    descripcion: {
-        type: String,
+    numero_viviendas: {
+        type: Number,
+        default: 0
     },
 });
 

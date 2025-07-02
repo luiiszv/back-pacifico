@@ -1,7 +1,15 @@
 import { Number, Types } from "mongoose";
 
 
-
+export type TipoCentroPoblado =
+  | 'CM'   // Cabecera Municipal
+  | 'TEBF' // Territorios Especiales Biodiversos y Fronterizos
+  | 'CP'   // Centro Poblado no categorizado
+  | 'C'    // Centro Poblado tipo Corregimiento
+  | 'CAS'  // Centro Poblado tipo Caserío
+  | 'IP'   // Centro Poblado tipo Inspección de Policía
+  | 'IPM'  // Centro Poblado tipo Inspección de Policía Municipal
+  | 'IPD'; // Centro Poblado tipo Inspección de Policía Departamental
 
 export interface CentroPobladoInterface {
     _id: Types.ObjectId; // Mongoose ObjectId
@@ -10,8 +18,7 @@ export interface CentroPobladoInterface {
     municipio_id: Types.ObjectId; // Referencia al municipio
     id_municipio: number; // ID del municipio para Room
     nombre: string; // Nombre del centro poblado
-    tipo: string; // Tipo de centro poblado (ej. vereda, corregimiento, etc.)
-
+    tipo: TipoCentroPoblado ; // <-- 
     createdAt?: Date;
     updatedAt?: Date;
 }

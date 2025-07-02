@@ -133,6 +133,13 @@ const findUsers = async () => {
   };
 };
 
+
+const logOutUser = async () => {
+
+  return buildSuccess([], "Ok", 200)
+
+};
+
 /**
  * Elimiar usuarios
  * @params id_user
@@ -194,9 +201,9 @@ const getUserById = async (idUser: Types.ObjectId) => {
   const user = await findUserById(idUser)
 
   if (!user) {
-    return buildError("User not found", [{path: "_id", message: "User not Found"}] ,404);
+    return buildError("User not found", [{ path: "_id", message: "User not Found" }], 404);
   }
 
   return buildSuccess(user, "Usuario encontrado", 200);
 };
-export { insertUser, getUser, findUsers, deleteUser, loginUser, getUserById };
+export { insertUser, getUser, findUsers, deleteUser, loginUser, getUserById, logOutUser };

@@ -2,7 +2,7 @@
 import { Router } from "express";
 
 // Import Controladores
-import { registerUsers, getAllUsers, login, verify } from "../controllers/user.controller";
+import { registerUsers, getAllUsers, login, verify, logOut } from "../controllers/user.controller";
 
 // Validaciones
 import { validateSchema } from "../middleware/validator.schema";
@@ -14,6 +14,7 @@ const router = Router();
 
 //  rutas
 router.post("/login", validateSchema(loginSchema), login);
+router.post("/logout", logOut); //Prueba
 router.get('/verify', authMiddleware, verify);
 
 router.get("/users", getAllUsers);

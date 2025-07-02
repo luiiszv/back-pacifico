@@ -4,7 +4,9 @@ import {
   insertUser,
   findUsers,
   loginUser,
-  getUserById
+  getUserById,
+  logOutUser
+
 } from "../services/userService";
 
 import { successResponse, errorResponse } from "../utils/apiResponse";
@@ -75,6 +77,27 @@ export const login = async ({ body }: Request, res: Response): Promise<any> => {
     res.status(400).json({ message: "Something went wrong in login", error });
   }
 };
+
+
+export const logOut = async ({ body }: Request, res: Response): Promise<any> => {
+  try {
+    const response = await logOutUser()
+    // res.cookie("accessToken", token, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "strict",
+    // });
+    if (!response.success) {
+      return errorResponse(res, response.message, response.statusCode, response.errors);
+    }
+
+    return successResponse(res, response.data, response.message, response.errors)
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Something went wrong in logOut", error });
+  }
+};
+
 
 
 export const verify = async (req: Request, res: Response): Promise<any> => {

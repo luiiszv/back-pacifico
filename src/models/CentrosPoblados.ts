@@ -6,6 +6,17 @@ import { CentroPobladoInterface } from "../types/centroPoblado/centroPoblado.typ
 const AutoIncrementFactory = require("mongoose-sequence")(mongoose); // Cambia esta línea
 
 
+const tiposCentroPoblado = [
+    'CM',   // Cabecera Municipal
+    'TEBF', // Territorios Especiales Biodiversos y Fronterizos
+    'CP',   // Centro Poblado no categorizado
+    'C',    // Centro Poblado tipo Corregimiento
+    'CAS',  // Centro Poblado tipo Caserío
+    'IP',   // Centro Poblado tipo Inspección de Policía
+    'IPM',  // Centro Poblado tipo Inspección de Policía Municipal
+    'IPD'   // Centro Poblado tipo Inspección de Policía Departamental
+];
+
 // ✅ Crea instancia del plugin
 const AutoIncrement = AutoIncrementFactory;
 
@@ -37,8 +48,10 @@ const CentrosPobladosSchema = new Schema<CentroPobladoInterface>({
         required: true,
 
     },
+
     tipo: {
         type: String,
+        enum: tiposCentroPoblado,
         required: true
     }
 
